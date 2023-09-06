@@ -1,7 +1,3 @@
-
-
-
-
 // Class supporting a basic Operation 
 class Operation {
     lValue;
@@ -83,15 +79,6 @@ function handleParentheses(array, index) {
     return newArr
 }
 
-// Working function in case Parentheses block containe a single Operation
-// function handleParentheses(array, index) {
-//     let startingArray = index - 1 < 0 ? [] : array.slice(0, index);
-//     let endingArray = array.slice(index + 5);
-//     let operationArr = array.slice(index + 1, index + 4);
-//     blockResult = processOperation(operationArr)
-//     newArr = startingArray.concat(blockResult).concat(endingArray);
-//     return newArr
-// }
 
 function doPriorityOperation(array, index) {
     let startingArray = index - 1 <= 0 ? [] : array.slice(0, index - 1)
