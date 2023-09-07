@@ -10,7 +10,7 @@ function processOperation(operationArray) {
         case "-":
             return operationArray[0] - operationArray[2]
         case "/":
-            if (this.rValue === 0) {
+            if (operationArray[2] === 0) {
                 throw `invalid operation: division by zero is not possible in : ${operationArray[0]}${operationArray[1]}${operationArray[2]}`
             }
             return operationArray[0] / operationArray[2]
