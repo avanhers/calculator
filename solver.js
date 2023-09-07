@@ -36,7 +36,7 @@ function resolve(array, checkParentheses, checkPrios) {
     if (checkParentheses) {
         for (let index = 0; index < len; index++) {
             if (array[index] === '(') {
-                updatedArray = handleParentheses(array, index)
+                updatedArray = resolveBracket(array, index)
 
                 return resolve(updatedArray, true, true)
             }
@@ -54,8 +54,9 @@ function resolve(array, checkParentheses, checkPrios) {
     return resolve(doRest(array), false, false)
 }
 
-// function resolving a bracketOperation
-function handleParentheses(array, index) {
+// function that given the index of an opening bracket in a calculation array
+// will find matching  closing bracket, resolve expression inside and return an updated calculationArray
+function resolveBracket(array, index) {
     let closingBracketIndex = findMatchingBracket(array, index, '(', ')')
     subArr = array.slice(index + 1, closingBracketIndex)
     let bracketResult = resolve(subArr, true, true)
@@ -65,7 +66,8 @@ function handleParentheses(array, index) {
     return newArr
 }
 
-
+// function that given the index of a priority operator and a calculation array
+// resole the priority operation and return an updated calculationArray
 function doPriorityOperation(array, index) {
     let startingArray = index - 1 <= 0 ? [] : array.slice(0, index - 1)
     let endingArray = array.slice(index + 2)
@@ -76,6 +78,8 @@ function doPriorityOperation(array, index) {
     return newArr
 }
 
+// function that given a calculation array (without any bracket or priority operation)
+// resolve the first operation encounter and return an updated calculationArray
 function doRest(array) {
     let operationArr = array.slice(0, 3)
     blockResult = processOperation(operationArr)
