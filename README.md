@@ -31,11 +31,15 @@ It allow following additional features and any combination of them
 ##### Run program
 
   
-
 ```bash
     make run 
+
 ```
 
-#### Possible improvment
-- [ ] Validate input || better error handling
-- [ ] more tests
+##### Run test
+
+  
+```bash
+    make test
+
+```
