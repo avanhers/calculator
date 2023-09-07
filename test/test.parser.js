@@ -12,20 +12,55 @@ const it = (desc, fn) => {
 };
 
 console.log("-----Testing Parser:-----")
+console.log("  ---Testing isDigit:---")
+// each test case is of form [strArg, indexArg, valueRes, indexAfterRes ]
+TestCase = [
+    ["0",true],
+    ["1", true],
+    ["9", true],
+    ["c",false],
+    ["+",false],
+]
+TestCase.forEach(element =>
+    it(`isDigit(${element[0]}) \
+, should return ${element[1]}}`, () => {
+        assert.equal
+            (parser.isDigit(element[0]),
+                element[1]);
+    }));
+
 
 
 console.log("  ---Testing atoI:---")
 // each test case is of form [strArg, indexArg, valueRes, indexAfterRes ]
 TestCase = [
-    ["+21", "0", "21", "3"],
-    ["-21678", "0", "-21678", "6"],
-    ["5+(-4575)", "3", "-4575", 8]
+    ["+21", 0, 21, 3],
+    ["-21678", 0, -21678, 6],
+    ["---+-25", 0, 25, 7],
+    ["5+(-+4575)", 3, -4575, 9],
 ]
 TestCase.forEach(element =>
-    it(`atoi(${element[0]}, ${element[1]}) \
+    it(`atoI(${element[0]}, ${element[1]}) \
 , should return { value:${element[2]}, indexAfter:${element[3]}}}`, () => {
         assert.deepEqual
             (parser.atoI(element[0], element[1]),
+                { value: element[2], indexAfter: element[3] });
+    }));
+
+
+console.log("  ---Testing atoF:---")
+// each test case is of form [strArg, indexArg, valueRes, indexAfterRes ]
+TestCase = [
+    ["+21.5", 0, 21.5, 5],
+    ["-0.2", 0, -0.2, 4],
+    ["--+-1.25", 0,-1.25, 8],
+    ["5+(-+45.75)", 3, -45.75, 10],
+]
+TestCase.forEach(element =>
+    it(`atoF(${element[0]}, ${element[1]}) \
+, should return { value:${element[2]}, indexAfter:${element[3]}}}`, () => {
+        assert.deepEqual
+            (parser.atoF(element[0], element[1]),
                 { value: element[2], indexAfter: element[3] });
     }));
 

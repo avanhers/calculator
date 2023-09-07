@@ -120,4 +120,4 @@ function parseFirstValue(str, calculationArray) {
 }
 
 
-module.exports = { parseInput, atoI }
+module.exports = { parseInput, atoI, atoF, isDigit }
