@@ -39,16 +39,19 @@ function processOperation(operationArray) {
     return operation.evaluate()
 }
 
-// Recursive function that solve full operation
+// Recursive function that solve a calculation array
+// argument checkParentheses and checkPrios are boolean, 
+// thos arguments are here to avoid unecessary operation after a recursive call
 function resolve(array, checkParentheses, checkPrios) {
-    if (array.length === 3 ) {
+    let len = array.length
+    if (len === 3 ) {
         return processOperation(array)
-    } else if (array.length === 1){
+    } else if (len === 1){
         return array[0]
     }
 
     if (checkParentheses) {
-        for (let index = 0; index < array.length; index++) {
+        for (let index = 0; index < len; index++) {
             if (array[index] === '(') {
                 updatedArray = handleParentheses(array, index)
                 
@@ -58,7 +61,7 @@ function resolve(array, checkParentheses, checkPrios) {
     }
 
     if (checkPrios) {
-        for (let index = 0; index < array.length; index++) {
+        for (let index = 0; index < len; index++) {
             if (array[index] === '*' || array[index] === '/') {
                 updatedArray = doPriorityOperation(array, index)  
                 return resolve(updatedArray, false, true)

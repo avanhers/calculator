@@ -5,14 +5,14 @@ function isDigit(c) {
     return c >= '0' && c <= '9';
 }
 
-
 // Parsing input into a calculation array,
 // bracket delimiting negative or positive number will be remove
 
 function parseInput(str) {
+    str = str.replaceAll(" ","")
     let calculationArray = new Array();
-
     let len = str.length;
+
     let i =  parseFirstValue(str,calculationArray);
 
     while (i < len) {
@@ -63,8 +63,9 @@ function atoI(str, index) {
     };
 }
 
-// function updating calculationArray
+// function updating calculationArray 
 // :WARNING: This function modify array receive in third argument 
+// return index of the next 'character of interest in str'
 function parseBracket(str, bracketIndex, calculationArray) {
     if (str[bracketIndex + 1] !== '-' && str[bracketIndex + 1] !== '+'){
         calculationArray.push('(')
@@ -73,13 +74,9 @@ function parseBracket(str, bracketIndex, calculationArray) {
        let atoIResult = atoI(str, bracketIndex + 1);
       
         if (str[atoIResult.indexAfter] === ')')  {
-            // case of a bracket only containing a number : example 3* (-4) 
-            // don't push initial bracket && fix nextIndex to be after closing bracket  
             calculationArray.push(atoIResult.value)
             return (atoIResult.indexAfter + 1)
         } else {
-            // case of a bracket follow by an operation : example 3 * (-4+5) 
-            // push initial bracket && fix nextIndex to be just
             calculationArray.push('(')
             calculationArray.push(atoIResult.value)
             return atoIResult.indexAfter
@@ -87,8 +84,9 @@ function parseBracket(str, bracketIndex, calculationArray) {
     }
 }
 
-// Handle first part of string value and add it to calculation array
-// :WARNING: This function modify array receive in second argument  
+// Handle first part of string value and add it to calculation array if necessary
+// :WARNING: This function modify array receive in second argument
+// return index of the next 'character of interest in str'
 function parseFirstValue(str, calculationArray){
     let atoIResult
     if (str[0] === '-' || str[0] === '+') {
@@ -99,4 +97,4 @@ function parseFirstValue(str, calculationArray){
     return 0
 }
 
-module.exports = { parseInput}
+module.exports = { parseInput, atoI}
