@@ -8,10 +8,9 @@ class Operation {
         if (arr.length != 3) {
             throw 'Invalid Operation'
         }
-
-        this.lValue = parseInt(arr[0], 10);
+        this.lValue = arr[0];
         this.operator = arr[1];
-        this.rValue = parseInt(arr[2], 10);
+        this.rValue = arr[2]
     }
 
     evaluate() {

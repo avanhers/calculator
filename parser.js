@@ -1,5 +1,5 @@
 // valid encounter symbol,
-const VALID_SYMBOL = ['+', '-', '*', '/','(',')'];
+const VALID_SYMBOL = ['+', '-', '*', '/', '(', ')','.'];
 
 function isDigit(c) {
     return c >= '0' && c <= '9';
@@ -9,24 +9,24 @@ function isDigit(c) {
 // bracket delimiting negative or positive number will be remove
 
 function parseInput(str) {
-    str = str.replaceAll(" ","")
+    str = str.replaceAll(" ", "")
     let calculationArray = new Array();
     let len = str.length;
 
-    let i =  parseFirstValue(str,calculationArray);
+    let i = parseFirstValue(str, calculationArray);
 
     while (i < len) {
         if (isDigit(str[i])) {
-            atoiResult = atoI(str,i)
-            calculationArray.push(atoiResult.value);
-            i = atoiResult.indexAfter
+            atoFResult = atoF(str, i)
+            calculationArray.push(atoFResult.value);
+            i = atoFResult.indexAfter
         } else if (VALID_SYMBOL.includes(str[i])) {
-            if ( str[i] !== '(') {
+            if (str[i] !== '(') {
                 calculationArray.push(str[i]);
                 i++;
             } else {
                 i = parseBracket(str, i, calculationArray)
-            }  
+            }
         } else {
             throw `invalid character at index: ${i}, value:${str[i]}`;
         }
@@ -41,7 +41,7 @@ function parseInput(str) {
 //      indexAfter: index of character following the parseInt 
 // example atoI("2+(--+24)*5 ",3) return {value:24, indexAfter:8}
 function atoI(str, index) {
-   
+
     let signe = 1;
     let curr = index;
     while (str[curr] === '-' || str[curr] === '+') {
@@ -63,23 +63,45 @@ function atoI(str, index) {
     };
 }
 
+//Parse a float starting at a given index in str
+// Consist on two atoI, one for whole number part and one for decimal part
+function atoF(str, index) {
+    let atoIResult = atoI(str, index);
+    if (str[atoIResult.indexAfter] !== ".") {
+        return atoIResult;
+    }
+    if (!isDigit(str[atoIResult.indexAfter + 1])) {
+        return atoIResult;
+    }
+    decimalPartAtoIResult = atoI(str, atoIResult.indexAfter + 1)
+
+    let lenDecimalPart = decimalPartAtoIResult.indexAfter - (atoIResult.indexAfter + 1)
+   
+    return {
+        value: atoIResult.value > 0 ? atoIResult.value + decimalPartAtoIResult.value / (10 ** lenDecimalPart)
+                                    : atoIResult.value - decimalPartAtoIResult.value / (10 ** lenDecimalPart),
+        indexAfter: decimalPartAtoIResult.indexAfter,
+    }
+
+}
+
 // function updating calculationArray 
 // :WARNING: This function modify array receive in third argument 
 // return index of the next 'character of interest in str'
 function parseBracket(str, bracketIndex, calculationArray) {
-    if (str[bracketIndex + 1] !== '-' && str[bracketIndex + 1] !== '+'){
+    if (str[bracketIndex + 1] !== '-' && str[bracketIndex + 1] !== '+') {
         calculationArray.push('(')
         return bracketIndex + 1
-    } else{
-       let atoIResult = atoI(str, bracketIndex + 1);
-      
-        if (str[atoIResult.indexAfter] === ')')  {
-            calculationArray.push(atoIResult.value)
-            return (atoIResult.indexAfter + 1)
+    } else {
+        let atoFResult = atoF(str, bracketIndex + 1);
+
+        if (str[atoFResult.indexAfter] === ')') {
+            calculationArray.push(atoFResult.value)
+            return (atoFResult.indexAfter + 1)
         } else {
             calculationArray.push('(')
-            calculationArray.push(atoIResult.value)
-            return atoIResult.indexAfter
+            calculationArray.push(atoFResult.value)
+            return atoFResult.indexAfter
         }
     }
 }
@@ -87,14 +109,15 @@ function parseBracket(str, bracketIndex, calculationArray) {
 // Handle first part of string value and add it to calculation array if necessary
 // :WARNING: This function modify array receive in second argument
 // return index of the next 'character of interest in str'
-function parseFirstValue(str, calculationArray){
-    let atoIResult
+function parseFirstValue(str, calculationArray) {
+    let atoFResult
     if (str[0] === '-' || str[0] === '+') {
-        atoIResult = atoI(str, 0);
-        calculationArray.push(atoIResult.value);
-        return atoIResult.indexAfter
+        atoFResult = atoF(str, 0);
+        calculationArray.push(atoFResult.value);
+        return atoFResult.indexAfter
     }
     return 0
 }
 
-module.exports = { parseInput, atoI}
+
+module.exports = { parseInput, atoI }
