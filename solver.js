@@ -2,7 +2,7 @@
 // should take an array of the form [float, 'operator',float]
 function processOperation(operationArray) {
     if (operationArray.length != 3) {
-        throw 'Invalid Operation'
+        throw 'Solver error,Invalid Operation'
     }
     switch (operationArray[1]) {
         case "+":
@@ -11,13 +11,13 @@ function processOperation(operationArray) {
             return operationArray[0] - operationArray[2]
         case "/":
             if (operationArray[2] === 0) {
-                throw `invalid operation: division by zero is not possible in : ${operationArray[0]}${operationArray[1]}${operationArray[2]}`
+                throw `Solver error: division by zero is not possible in : ${operationArray[0]}${operationArray[1]}${operationArray[2]}`
             }
             return operationArray[0] / operationArray[2]
         case "*":
             return operationArray[0] * operationArray[2]
         default:
-            throw 'invalid operation: unkown operand '
+            throw 'Solver error: unkown operand'
     }
 }
 
@@ -106,7 +106,7 @@ function findMatchingBracket(str, index, openingBraket, closingBraket) {
         }
     }
     if (index === len && find != 0) {
-        throw 'Invalid Operation, at least one closing bracket is missing'
+        throw 'Solver error, at least one closing bracket is missing'
     }
     return index;
 }

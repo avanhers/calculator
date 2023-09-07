@@ -7,19 +7,19 @@ const readline = require('readline').createInterface({
 });
 
 
+
 async function run() {
-    console.log("Write an operation")
+    console.log("Write an operation");
+
     readline.on('line', (input) => {
         try {
             let calculationArray = parser.parseInput(input)
             let result = solver.solve(calculationArray, true, true)
             console.log(result)
         } catch (e) {
-            console.log('Something went wrong: ', e)
+            console.log("Something went Wrong: ", e)
         }
       }); 
 }
 
 run()
-
-module.exports = { run }

@@ -28,7 +28,7 @@ function parseInput(str) {
                 i = parseBracket(str, i, calculationArray)
             }
         } else {
-            throw `invalid character at index: ${i}, value:${str[i]}`;
+            throw `Parser Error invalid character at index: ${i}, value:${str[i]}`;
         }
     }
     return calculationArray;
@@ -52,7 +52,7 @@ function atoI(str, index) {
     }
     let numberIndex = curr;
     if (!isDigit(str[curr])) {
-        throw `Invalid Operation: char ${str[index]} invalid`;
+        throw `Parser Error: char ${str[index]} invalid`;
     }
     while (isDigit(str[curr])) {
         curr++;
