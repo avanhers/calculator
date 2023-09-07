@@ -8,7 +8,7 @@ async function run() {
         try {
             let input = await reader.readInput()
             let calculationArray = parser.parseInput(input)
-            let result = solver.resolve(calculationArray, true, true)
+            let result = solver.solve(calculationArray, true, true)
             console.log(result)
         } catch (e) {
             console.log('Something went wrong: ', e)

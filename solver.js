@@ -25,7 +25,7 @@ function processOperation(operationArray) {
 // Recursive function that solve a calculation array
 // argument checkParentheses and checkPrios are boolean, 
 // thos arguments are here to avoid unecessary operation after a recursive call
-function resolve(array, checkParentheses, checkPrios) {
+function solve(array, checkParentheses, checkPrios) {
     let len = array.length
     if (len === 3) {
         return processOperation(array)
@@ -36,9 +36,9 @@ function resolve(array, checkParentheses, checkPrios) {
     if (checkParentheses) {
         for (let index = 0; index < len; index++) {
             if (array[index] === '(') {
-                updatedArray = resolveBracket(array, index)
+                updatedArray = solveBracket(array, index)
 
-                return resolve(updatedArray, true, true)
+                return solve(updatedArray, true, true)
             }
         }
     }
@@ -47,19 +47,19 @@ function resolve(array, checkParentheses, checkPrios) {
         for (let index = 0; index < len; index++) {
             if (array[index] === '*' || array[index] === '/') {
                 updatedArray = doPriorityOperation(array, index)
-                return resolve(updatedArray, false, true)
+                return solve(updatedArray, false, true)
             }
         }
     }
-    return resolve(doRest(array), false, false)
+    return solve(doRest(array), false, false)
 }
 
 // function that given the index of an opening bracket in a calculation array
-// will find matching  closing bracket, resolve expression inside and return an updated calculationArray
-function resolveBracket(array, index) {
+// will find matching  closing bracket, solve expression inside and return an updated calculationArray
+function solveBracket(array, index) {
     let closingBracketIndex = findMatchingBracket(array, index, '(', ')')
     subArr = array.slice(index + 1, closingBracketIndex)
-    let bracketResult = resolve(subArr, true, true)
+    let bracketResult = solve(subArr, true, true)
     let startingArray = index - 1 < 0 ? [] : array.slice(0, index);
     let endingArray = array.slice(closingBracketIndex + 1);
     newArr = startingArray.concat(bracketResult).concat(endingArray);
@@ -79,7 +79,7 @@ function doPriorityOperation(array, index) {
 }
 
 // function that given a calculation array (without any bracket or priority operation)
-// resolve the first operation encounter and return an updated calculationArray
+// solve the first operation encounter and return an updated calculationArray
 function doRest(array) {
     let operationArr = array.slice(0, 3)
     blockResult = processOperation(operationArr)
@@ -111,4 +111,4 @@ function findMatchingBracket(str, index, openingBraket, closingBraket) {
     return index;
 }
 
-module.exports = { resolve }
+module.exports = { solve }

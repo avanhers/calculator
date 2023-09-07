@@ -2,6 +2,7 @@ run:
 	node main.js
 
 test:
-	node ./test/test.parser.js
+	node ./test/parser.spec.js
+	node ./test/solver.spec.js
 
 .PHONY: all test clean
